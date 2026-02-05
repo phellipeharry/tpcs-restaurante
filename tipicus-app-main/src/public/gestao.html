@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cozinha - Tipicu's</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS GERAL */
+        body { 
+            background-color: #e9ecef; 
+            padding: 20px; 
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+        }
+
+        /* --- CABEÇALHO ESTILO ADMIN --- */
+        .header-gestao { 
+            background-color: #2c3e50; 
+            color: white; 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            width: 100%; 
+            box-sizing: border-box; 
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .header-logo {
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px;
+        }
+
+        .header-actions {
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
+        }
+
+        /* ESTILO DOS BOTÕES */
+        .btn-header {
+            text-decoration: none; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            gap: 8px; 
+            font-size: 0.95rem; 
+            padding: 10px 20px; 
+            border-radius: 6px; 
+            transition: 0.2s;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        /* Botão Novo (Verde) */
+        .btn-novo { background-color: #28a745; color: white; }
+        .btn-novo:hover { background-color: #218838; }
+
+        /* Botões de Link (Transparentes no PC, Escuros no Mobile) */
+        .btn-link { color: white; background: rgba(255,255,255,0.1); }
+        .btn-link:hover { background: rgba(255,255,255,0.2); }
+
+        /* Botão Ativo (Amarelo) */
+        .btn-ativo { background-color: #FFC300; color: #202020; cursor: default; }
+
+        /* --- GRID DO KANBAN --- */
+        .board-container { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr; 
+            gap: 20px; 
+            align-items: start; 
+        }
+        
+        .board-column { 
+            background: #dee2e6; 
+            border-radius: 8px; 
+            padding: 15px; 
+            min-height: 80vh; 
+            border: 1px solid #ced4da;
+        }
+
+        .column-header { 
+            font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; 
+            text-transform: uppercase; display: flex; justify-content: space-between; color: #495057;
+        }
+
+        .badge-count { 
+            background: #343a40; color: white; padding: 2px 10px; 
+            border-radius: 12px; font-size: 0.9rem; 
+        }
+
+        /* CARDS */
+        .order-card { 
+            background: white; border-radius: 8px; padding: 15px; 
+            margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            animation: fadeIn 0.5s; border-left: 5px solid #ccc;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .order-info { display: flex; justify-content: space-between; color: #888; font-size: 0.8rem; margin-bottom: 5px; }
+        
+        .card-actions { display: flex; gap: 8px; margin-top: 10px; }
+
+        .btn-action { 
+            flex: 1; padding: 10px; border: none; border-radius: 5px; 
+            cursor: pointer; font-weight: bold; color: white; 
+            font-size: 0.9rem; display: flex; align-items: center; 
+            justify-content: center; gap: 5px; transition: 0.2s; 
+        }
+        .btn-amarelo { background-color: #ffc107; color: #333; }
+        .btn-verde { background-color: #28a745; }
+        .btn-azul { background-color: #17a2b8; }
+
+
+        /* =========================================
+           RESPONSIVIDADE (MOBILE) - ESTILO ADMIN
+           ========================================= */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+
+            /* Transforma o Header em Coluna Vertical */
+            .header-gestao {
+                flex-direction: column; 
+                gap: 15px;
+                text-align: center;
+                padding: 20px;
+            }
+
+            /* Container dos botões ocupa largura total e empilha */
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+
+            /* Botões ficam com largura total (iguais ao Admin) */
+            .btn-header {
+                width: 100%;
+                padding: 12px;
+                font-size: 1rem;
+                box-sizing: border-box; /* Garante que padding não estoure a largura */
+            }
+
+            /* Ajuste visual do Logo */
+            .header-logo {
+                margin-bottom: 5px;
+                justify-content: center;
+            }
+
+            /* Kanban vira Pilha Vertical */
+            .board-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .board-column { min-height: auto; }
+        }
+
+        /* PRINT */
+        #printable-area { display: none; }
+        @media print {
+            @page { size: auto; margin: 0mm; }
+            html, body { margin: 0 !important; padding: 0 !important; height: auto !important; overflow: visible !important; background: white !important; }
+            body > *:not(#printable-area) { display: none !important; }
+            #printable-area { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-gestao">
+        <div class="header-logo">
+            🧑‍🍳 <span>Cozinha</span>
+        </div>
+
+        <div class="header-actions">
+            <button onclick="abrirModalManual()" class="btn-header btn-novo">
+                <i class="fas fa-plus-circle"></i> Novo Pedido
+            </button>
+
+            <a href="index.html" class="btn-header btn-link">
+                <i class="fas fa-mobile-alt"></i> Ver Cardápio
+            </a>
+
+            <a href="admin.html" class="btn-header btn-link">
+                <i class="fas fa-tools"></i> Admin
+            </a>
+
+            <div class="btn-header btn-ativo">
+                <i class="fas fa-utensils"></i> Cozinha
+            </div>
+        </div>
+    </header>
+
+    <div id="modal-confirm-custom" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:9999;">
+        <div style="background:white; padding:30px; border-radius:10px; text-align: center; max-width: 320px;">
+            <i class="fas fa-check-circle" style="font-size: 3rem; color: #28a745; margin-bottom: 15px;"></i>
+            <h3 style="margin-top: 0;">Finalizar Pedido?</h3>
+            <p style="color: #666; margin-bottom: 20px;">O pedido será movido para Finalizados.</p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button id="btn-confirm-yes" class="btn-action btn-verde">Sim, Finalizar</button>
+                <button onclick="document.getElementById('modal-confirm-custom').style.display='none'" class="btn-action" style="background-color: #6c757d;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-manual" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;">
+        <div style="background:white; padding:25px; border-radius:10px; width:400px; max-height:90vh; overflow-y:auto;">
+            <h3>📝 Pedido Balcão/Tel</h3>
+            <label>Nome do Cliente</label>
+            <input type="text" id="manual-nome" placeholder="Ex: Mesa 4 ou João" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ddd; border-radius:4px;">
+            <label>Selecione os Itens:</label>
+            <div id="manual-lista-pratos" style="border:1px solid #eee; padding:10px; margin-bottom:10px; max-height:200px; overflow-y:auto;"></div>
+            <label>Observação</label>
+            <input type="text" id="manual-obs" style="width:100%; padding:8px; margin-bottom:15px; border:1px solid #ddd; border-radius:4px;">
+            <div style="display:flex; gap:10px;">
+                <button onclick="enviarManual()" style="flex:1; background:#28a745; color:white; padding:10px; border:none; border-radius:5px; cursor:pointer;">Lançar</button>
+                <button onclick="document.getElementById('modal-manual').style.display='none'" style="flex:1; background:#ccc; padding:10px; border:none; border-radius:5px; cursor:pointer;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="board-container">
+        <div class="board-column">
+            <div class="column-header">Novos Pedidos <span id="count-novos" class="badge-count">0</span></div>
+            <div id="lista-novos"></div>
+        </div>
+        <div class="board-column">
+            <div class="column-header">Na Cozinha <span id="count-preparo" class="badge-count">0</span></div>
+            <div id="lista-preparo"></div>
+        </div>
+        <div class="board-column">
+            <div class="column-header">Finalizados <span id="count-finalizados" class="badge-count">0</span></div>
+            <div id="lista-finalizados"></div>
+        </div>
+    </div>
+
+    <div id="printable-area"></div>
+    <script src="js/gestao.js"></script>
+</body>
+</html>

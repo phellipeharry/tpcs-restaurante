@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tipicu's Restaurante</title>
+    
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="web-container" style="display:flex; justify-content:center;">
+            <a href="#" class="brand">
+                <i class="fas fa-utensils"></i> Tipicu's
+            </a>
+        </div>
+    </header>
+
+    <div class="web-container">
+        
+        <div class="info-banner">
+            <i class="fas fa-info-circle" style="color:var(--primary); font-size:1.2rem;"></i>
+            <div>
+                <strong>Acompanhamentos:</strong>
+                <span id="display-acompanhamentos">Carregando...</span>
+            </div>
+        </div>
+
+        <div class="nav-scroll">
+            <div class="nav-pills">
+                <div class="nav-item active" onclick="mudarAbaPratos('semana', this)">Da Semana</div>
+                <div class="nav-item" onclick="mudarAbaPratos('fim_semana', this)">Fim de Semana</div>
+                <div class="nav-item" onclick="document.getElementById('bebidas-section').scrollIntoView({behavior:'smooth'})">Bebidas</div>
+            </div>
+        </div>
+
+        <div class="section-title">Pratos Principais</div>
+        <div id="pratos-list" class="carousel-track">
+            <div style="padding:20px; text-align:center; width:100%; color:#999;">Carregando cardápio...</div>
+        </div>
+
+        <div class="section-title" id="bebidas-section" style="margin-top:30px;">Bebidas</div>
+        <div id="bebidas-list" class="carousel-track"></div>
+
+        <footer class="site-footer">
+            <div class="footer-socials">
+                <a href="https://wa.me/553799999999" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/cozinha_tipicus?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p><strong>Tipicu's Restaurante</strong><br>
+            Aberto todos os dias das 11h às 15h</p>
+            
+            <div style="margin-top: 15px; opacity: 0.3; font-size: 0.7rem;">
+                <a href="/admin.html" style="color: inherit; text-decoration: none;">
+                    <i class="fas fa-lock"></i> Área Admin
+                </a>
+            </div>
+        </footer>
+
+    </div>
+
+    <div id="barra-checkout" class="checkout-bar" onclick="abrirModalConfirmacao()">
+        <div style="display:flex; align-items:center; gap:12px;">
+            <div style="background:#555; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.9rem;" id="checkout-count-circle">0</div>
+            <div style="line-height:1.1;">
+                <span style="font-size:0.75rem; opacity:0.7;">Total</span><br>
+                <span style="font-weight:bold; font-size:1.1rem; color:var(--primary);" id="checkout-total">R$ 0,00</span>
+            </div>
+        </div>
+        <div style="font-weight:600; font-size:0.9rem;">
+            Ver Sacola <i class="fas fa-chevron-right ml-1"></i>
+        </div>
+    </div>
+
+    <div id="modal-confirmacao" class="modal-overlay">
+        <div class="modal-box">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <h3 style="margin:0;">Sua Sacola</h3>
+                <i class="fas fa-times" onclick="fecharModal()" style="font-size:1.5rem; color:#ccc; cursor:pointer;"></i>
+            </div>
+
+            <div id="lista-confirmacao" style="max-height:40vh; overflow-y:auto; margin-bottom:20px;">
+                </div>
+
+            <div style="border-top:1px solid #eee; padding-top:15px;">
+                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; margin-bottom:15px;">
+                    <span>Total Final</span>
+                    <span style="color:#27ae60;" id="total-modal">R$ 0,00</span>
+                </div>
+                
+                <input type="text" id="clienteNomeFinal" placeholder="Seu Nome Completo" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:10px; margin-bottom:10px; font-family:inherit; background:#f9f9f9;">
+                <input type="text" id="observacaoFinal" placeholder="Observações (Ex: Sem cebola)" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:10px; margin-bottom:20px; font-family:inherit; background:#f9f9f9;">
+                
+                <button onclick="finalizarPedido()" style="width:100%; background:#25D366; color:white; border:none; padding:15px; border-radius:10px; font-weight:bold; font-size:1.1rem; cursor:pointer; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);">
+                    ENVIAR PEDIDO <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/client.js"></script>
+</body>
+</html>

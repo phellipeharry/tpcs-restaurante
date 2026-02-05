@@ -1,0 +1,444 @@
+/* ==========================================================================
+   TIPICU'S STYLE - ARQUIVO UNIFICADO E LIMPO
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+:root {
+    --primary: #FFC300;   /* Amarelo Gema */
+    --dark: #202020;      /* Preto Suave */
+    --gray: #B0B0B0;      /* Cinza */
+    --bg: #F4F4F9;        /* Fundo Site */
+    --white: #FFFFFF;
+    --border: #E0E0E0;
+}
+
+body {
+    background-color: var(--bg);
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark);
+    margin: 0;
+    padding-bottom: 140px; /* Espaço para barra flutuante */
+    overflow-x: hidden;
+}
+
+/* --- LAYOUT GERAL --- */
+.web-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* --- HEADER FIXO --- */
+.site-header {
+    background: var(--white);
+    padding: 15px 20px;
+    position: sticky; top: 0; z-index: 900;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex; justify-content: center; align-items: center;
+}
+.brand {
+    font-size: 1.5rem; font-weight: 800; color: var(--dark);
+    display: flex; align-items: center; gap: 8px; text-decoration: none;
+}
+.brand i { color: var(--primary); }
+
+/* --- COMPONENTES VISUAIS (CLIENTE) --- */
+
+/* Banner de Aviso */
+.info-banner {
+    background: #FFFDF0; border: 1px solid #FFEBAA;
+    margin: 15px 20px 0; padding: 12px; border-radius: 12px;
+    font-size: 0.9rem; color: #555;
+    display: flex; gap: 10px; align-items: center;
+}
+
+/* Navegação (Abas) */
+.nav-scroll {
+    padding: 20px; overflow-x: auto;
+    scrollbar-width: none;
+}
+.nav-scroll::-webkit-scrollbar { display: none; }
+
+.nav-pills { display: flex; gap: 10px; }
+.nav-item {
+    padding: 8px 20px; background: var(--white); border: 1px solid #eee;
+    border-radius: 30px; white-space: nowrap; font-weight: 600; color: #888;
+    cursor: pointer; transition: 0.2s;
+    user-select: none; /* Evita selecionar texto ao clicar */
+}
+.nav-item.active {
+    background: var(--primary); color: var(--dark); border-color: var(--primary);
+    box-shadow: 0 4px 10px rgba(255, 195, 0, 0.4);
+}
+
+/* Títulos das Seções */
+.section-title {
+    padding: 0 20px; font-size: 1.2rem; font-weight: 700;
+    margin: 20px 0 10px; display: flex; align-items: center; gap: 8px;
+}
+.section-title::before {
+    content:''; display:block; width:4px; height:20px; background:var(--primary); border-radius:4px;
+}
+
+/* Carrossel de Produtos (Cliente) */
+.carousel-track {
+    display: flex; gap: 15px; overflow-x: auto;
+    padding: 10px 20px 40px;
+    scrollbar-width: none;
+    cursor: grab;
+    user-select: none; /* IMPORTANTE: Impede seleção de texto ao arrastar */
+}
+.carousel-track:active { cursor: grabbing; }
+.carousel-track::-webkit-scrollbar { display: none; }
+
+/* --- CARD DE PRODUTO (CLIENTE) --- */
+.food-card {
+    flex: 0 0 260px; /* Largura fixa */
+    background: var(--white); border-radius: 18px;
+    overflow: hidden; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+    position: relative; border: 2px solid transparent; transition: 0.2s;
+    user-select: none; /* Impede selecionar o card */
+}
+.food-card.selected { border-color: var(--primary); background: #FFFDF5; }
+
+/* Imagem do Cliente */
+.card-img {
+    width: 100%;
+    aspect-ratio: 4 / 3; 
+    object-fit: cover;
+    object-position: center;
+    background-color: #eee;
+    
+    /* REMOVIDO user-drag que causava erro */
+    pointer-events: none;      /* O mouse "atravessa" a imagem e clica no card */
+    user-select: none;         /* Proíbe selecionar */
+}
+
+.card-body { padding: 12px; }
+
+.card-title { 
+    font-size: 1rem; 
+    font-weight: 700; 
+    margin: 0 0 5px; 
+    color: var(--dark);
+    /* Texto em uma linha com ... no final */
+    white-space: nowrap;       
+    overflow: hidden;          
+    text-overflow: ellipsis;   
+}
+
+.card-desc { font-size: 0.8rem; color: #777; height: 36px; overflow: hidden; line-height: 1.3; margin-bottom: 10px; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; }
+.price { font-size: 1.1rem; font-weight: 800; color: var(--dark); }
+
+/* Seletor de Quantidade (+ e -) */
+.qty-selector {
+    display: flex; align-items: center; gap: 8px;
+    background: #f8f9fa; border-radius: 20px; padding: 3px;
+    border: 1px solid #eee;
+}
+.btn-qty {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 0.9rem; transition: 0.2s;
+}
+.btn-qty.minus { background: white; color: #aaa; border: 1px solid #ddd; }
+.btn-qty.plus { background: var(--primary); color: var(--dark); border: 1px solid var(--primary); }
+.qty-display { font-weight: 700; min-width: 15px; text-align: center; }
+
+/* ==========================================================================
+   BARRA DE CHECKOUT (SACOLA) - VISUAL COMPLETO + ANIMAÇÕES
+   ========================================================================== */
+
+.checkout-bar {
+    /* --- 1. PROPRIEDADES VISUAIS (O QUE FAZ ELE APARECER) --- */
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    /* Centralização inicial: */
+    transform: translateX(-50%) scale(0.9); 
+    
+    width: 90%; 
+    max-width: 600px;
+    background-color: #1f1f1f; /* Fundo Preto */
+    color: white;
+    border-radius: 16px;
+    padding: 12px 20px;
+    
+    display: flex; /* Alinha itens lado a lado */
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box; 
+    
+    z-index: 9999;
+    opacity: 0; /* Começa invisível */
+    visibility: hidden;
+
+    /* --- 2. ANIMAÇÃO SUAVE --- */
+    transition: 
+        transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+        box-shadow 0.2s ease,
+        opacity 0.3s ease,
+        visibility 0.3s;
+        
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* ESTADO VISÍVEL (Quando tem itens no carrinho) */
+.checkout-bar.visible {
+    opacity: 1;
+    visibility: visible;
+    /* Posição Normal */
+    transform: translate(-50%, 0) scale(1);
+}
+
+/* --- INTERAÇÃO COMPUTADOR (MOUSE): CRESCER --- */
+@media (hover: hover) {
+    .checkout-bar.visible:hover {
+        /* Sobe um pouquinho (-5px) e cresce */
+        transform: translate(-50%, -5px) scale(1.03);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+}
+
+/* --- INTERAÇÃO CLIQUE/TOQUE (CELULAR): AFUNDAR --- */
+.checkout-bar.visible:active {
+    /* Afunda levemente */
+    transform: translate(-50%, 0) scale(0.96);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.1s ease;
+}
+
+/* --- FOOTER --- */
+.site-footer {
+    text-align: center; padding: 40px 20px; color: #888; font-size: 0.8rem;
+    border-top: 1px solid #ddd; margin-top: 20px;
+}
+.footer-socials { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; }
+.social-icon { width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--dark); text-decoration: none; font-size: 1.1rem; }
+
+/* ==========================================================================
+   ÁREA DO ADMIN
+   ========================================================================== */
+#admin-pratos-list, #admin-bebidas-list {
+    display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; padding: 20px 0;
+}
+.item-card {
+    width: 220px; background: white; border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;
+    overflow: hidden; display: flex; flex-direction: column;
+}
+.item-card.is-hidden { opacity: 0.6; filter: grayscale(100%); border: 1px dashed #999; }
+.card-image-container {
+    width: 100%; height: 150px; position: relative;
+    background-color: #f8f9fa; border-bottom: 1px solid #eee;
+}
+.card-image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.price-tag {
+    position: absolute; bottom: 8px; right: 8px;
+    background: rgba(0,0,0,0.8); color: #fff; padding: 4px 8px;
+    border-radius: 4px; font-weight: bold; font-size: 0.9rem;
+}
+.card-content { padding: 15px; flex-grow: 1; }
+
+/* CORREÇÃO AQUI (REMOVIDO o erro de webkit-line-clamp) */
+.card-content h5 { 
+    margin: 0; 
+    font-size: 1rem; 
+    font-weight: 600; 
+    color: #333; 
+    
+    /* Método padrão compatível: */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-card .card-actions { padding: 10px 15px; background: #f8f9fa; border-top: 1px solid #eee; display: flex; gap: 10px; }
+
+/* --- MODAIS GERAIS --- */
+.modal-overlay {
+    display: none; 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); z-index: 2000; 
+    justify-content: center; align-items: center; 
+    padding: 20px;
+    box-sizing: border-box; /* Garante que o padding não estoure a tela */
+}
+.modal-box, .modal-content {
+    background: white; width: 100%; max-width: 500px; border-radius: 12px; padding: 25px;
+    max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative;
+}
+.modal-content label { font-weight: 600; display: block; margin-bottom: 5px; color: #555; }
+.modal-content .form-control, .modal-content .form-select {
+    width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; margin-bottom: 15px;
+}
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+
+/* IMPRESSÃO */
+@media print {
+    .sidebar, .top-bar, .actions, .btn-action, .no-print, 
+    .site-header, .site-footer, .checkout-bar, .nav-scroll,
+    .info-banner, .section-title, .modal-overlay { display: none !important; }
+    body { background: white; color: black; font-family: 'Courier New', monospace; font-size: 12px; padding: 0; margin: 0; width: 100%; }
+    #printable-area { display: block !important; width: 100%; max-width: 80mm; margin: 0; padding: 0 5px; }
+    .cupom-header { text-align: center; margin-bottom: 10px; border-bottom: 1px dashed #000; padding-bottom: 5px; }
+    .cupom-body { margin-bottom: 10px; border-bottom: 1px dashed #000; padding-bottom: 5px; }
+    .cupom-item { display: flex; justify-content: space-between; margin-bottom: 3px; }
+    .cupom-total { text-align: right; font-size: 14px; font-weight: bold; margin-top: 5px; }
+    .cupom-obs { font-weight: bold; margin: 5px 0; font-size: 11px; }
+    .cupom-footer { text-align: center; margin-top: 15px; font-size: 10px; }
+}
+#printable-area { display: none; }
+
+/* ==========================================================================
+   CORREÇÕES FINAIS (RESPONSIVIDADE E SACOLA)
+   ========================================================================== */
+
+/* 1. Remove barra horizontal e trava a largura no celular */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* 2. Correção do Modal da Sacola */
+#modal-confirmacao .modal-box {
+    position: relative;
+    margin: 0 auto;
+    
+    /* CORREÇÃO DO VAZAMENTO: */
+    width: 90% !important; /* Força 90% da tela para deixar margem */
+    max-width: 450px;      /* Trava largura no PC */
+    
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+    
+    animation: zoomIn 0.2s ease;
+    transform: none !important; 
+    bottom: auto !important;
+}
+
+@keyframes zoomIn { from {opacity: 0; transform: scale(0.9);} to {opacity: 1; transform: scale(1);} }
+
+/* 3. Ajuste dos Inputs da Sacola no Mobile */
+#modal-confirmacao input {
+    width: 100% !important;
+    box-sizing: border-box; 
+    font-size: 16px; 
+}
+
+/* Botões do Modal de Confirmação */
+.btn-padrao {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+.btn-cancelar {
+    background-color: #eee;
+    color: #555;
+}
+.btn-cancelar:hover { background-color: #ddd; }
+
+.btn-confirmar {
+    background-color: var(--primary); /* Seu amarelo */
+    color: var(--dark);
+}
+.btn-confirmar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ==========================================================================
+   CONFIGURAÇÃO DE IMPRESSÃO (CUPOM)
+   ========================================================================== */
+
+/* ==========================================================================
+   CONFIGURAÇÃO DE IMPRESSÃO (CORREÇÃO 1 PÁGINA)
+   ========================================================================== */
+
+@media print {
+    /* 1. Configura a folha para não ter margens */
+    @page {
+        size: auto;
+        margin: 0mm;
+    }
+
+    /* 2. Zera o corpo da página para não ter espaço extra */
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+        background: #fff !important;
+    }
+
+    /* 3. O PULO DO GATO: Some com tudo da tela (remove do layout) */
+    body > * {
+        display: none !important;
+    }
+
+    /* 4. Traz de volta APENAS a área de impressão */
+    #printable-area {
+        display: block !important; /* Força aparecer */
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        max-width: 80mm; /* Largura do cupom */
+        margin: 0;
+        padding: 5mm; /* Um pouco de margem interna */
+        
+        /* Estilização da fonte */
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        color: #000;
+        background-color: #fff;
+    }
+
+    /* Garante que os filhos do printable-area apareçam */
+    #printable-area * {
+        display: block; 
+        visibility: visible;
+    }
+    
+    /* Ajuste para itens flex dentro do cupom (como a linha de produto e preço) */
+    .cupom-item {
+        display: flex !important; /* Reativa o flexbox só aqui */
+        justify-content: space-between;
+    }
+
+    /* Estilos Visuais do Cupom */
+    .cupom-header {
+        text-align: center;
+        border-bottom: 1px dashed #000;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+    .cupom-footer {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 10px;
+    }
+    .cupom-total {
+        font-weight: bold;
+        text-align: right;
+        font-size: 16px;
+        margin-top: 10px;
+        border-top: 1px dashed #000;
+        padding-top: 5px;
+    }
+}
